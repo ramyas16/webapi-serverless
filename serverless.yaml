@@ -1,0 +1,30 @@
+service: webapi-serverless
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  apiName: ${opt:stage, self:provider.stage, 'dev'}
+  region: us-east-1
+  environment:
+    BIG_COMM_ENDPOINT: 'https://api.bigcommerce.com/stores/8vr02na1wl/v3/catalog/products/'
+    BIG_COMM_MIN_PRODUCT_ID: 1200
+    BIG_COMM_MAX_PRODUCT_ID: 5000
+    AUTH_CLIENT: ''
+    AUTH_TOKEN: ''
+
+plugins:
+  - serverless-offline
+  - serverless-express
+  - serverless-dotenv-plugin
+
+functions:
+  app:
+    handler: index.handler
+    events:
+      - http: ANY /
+      - http: 'ANY /{proxy+}'
+  getProduct:
+    handler: index.handler
+    events:
+      - http: 'GET /product/{proxy+}'
