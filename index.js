@@ -15,9 +15,9 @@ app.get('/product/:productId', asyncHandler(async(req, res) => {
         res.statusCode = validationResponse.error_code;
         return res.send(validationResponse);
     }
-    console.log("hello");
+    console.log("hello2");
 
-    
+
     const productResponse = await productService.getProduct(req.params.productId);
     res.send(productResponse); 
 }))
